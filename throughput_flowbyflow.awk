@@ -20,7 +20,7 @@ BEGIN {
 
       throughput_flow0 = bytes_counter_flow0 / timeInterval;
       # Export throughput of this time interval to xls file 
-      printf("%f \t %f\n", time2, throughput_flow0) > "throughput_flow0.xls";
+      printf("%s \t %s\n", time2, throughput_flow0) > "throughput_flow0.xls";
       bytes_counter_flow0 = 0;
 
       throughput_flow1 = bytes_counter_flow1 / timeInterval;
@@ -35,16 +35,15 @@ BEGIN {
 
       throughput_flow3 = bytes_counter_flow3 / timeInterval;
       # Export throughput of this time interval to xls file 
-      printf("%f \t %f\n", time2, throughput_flow2) > "throughput_flow3.xls";
+      printf("%f \t %f\n", time2, throughput_flow3) > "throughput_flow3.xls";
       bytes_counter_flow3 = 0;
 
       time1 = $2;
    }
 
-
-
-   # if packet arrives at destination node 11 belongs to flow id 0
-   if ($1 == "r" && $4 == 11 && $8 == 1) {
+   # if packet arrives at destination node 11 belongs to flow id 1
+   if ($1 == "r" && $4 == "11" && $8 == "1") {
+       
       bytes_counter_flow0 += $6;
    }
 
@@ -58,7 +57,7 @@ BEGIN {
       bytes_counter_flow2 += $6;
    }
 
-   # if packet arrives at destination node 16 belongs to flow id 6
+   # if packet arrives at destination node 16 belongs to flow id 7
    if ($1 == "r" && $4 == 17 && $8 == 7) {
       bytes_counter_flow3 += $6;
    }

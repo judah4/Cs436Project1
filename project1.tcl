@@ -40,14 +40,14 @@ $ns duplex-link $n4 $n6 2Mb 40ms DropTail
 $ns duplex-link $n4 $n7 2Mb 40ms DropTail
 $ns duplex-link $n8 $n0 1Mb 20ms DropTail
 $ns duplex-link $n9 $n1 1Mb 20ms DropTail
-$ns duplex-link $n10 $n5 1Mb 20ms DropTail
-$ns duplex-link $n11 $n5 1Mb 20ms DropTail
-$ns duplex-link $n12 $n5 1Mb 20ms DropTail
-$ns duplex-link $n13 $n5 1Mb 20ms DropTail
-$ns duplex-link $n14 $n6 1Mb 20ms DropTail
-$ns duplex-link $n15 $n6 1Mb 20ms DropTail
-$ns duplex-link $n16 $n7 1Mb 20ms DropTail
-$ns duplex-link $n17 $n7 1Mb 20ms DropTail
+$ns duplex-link $n5 $n10 1Mb 20ms DropTail
+$ns duplex-link $n5 $n11 1Mb 20ms DropTail
+$ns duplex-link $n5 $n12 1Mb 20ms DropTail
+$ns duplex-link $n5 $n13 1Mb 20ms DropTail
+$ns duplex-link $n6 $n14 1Mb 20ms DropTail
+$ns duplex-link $n6 $n15 1Mb 20ms DropTail
+$ns duplex-link $n7 $n16 1Mb 20ms DropTail
+$ns duplex-link $n7 $n17 1Mb 20ms DropTail
 
 #Set Queue Size of links
 $ns queue-limit $n0 $n2 25
@@ -58,15 +58,16 @@ $ns queue-limit $n3 $n4 30
 $ns queue-limit $n3 $n5 25
 $ns queue-limit $n4 $n6 25
 $ns queue-limit $n4 $n7 25
+$ns queue-limit $n8 $n0 20
 $ns queue-limit $n9 $n1 20
-$ns queue-limit $n10 $n5 20
-$ns queue-limit $n11 $n5 20
-$ns queue-limit $n12 $n5 20
-$ns queue-limit $n13 $n5 20
-$ns queue-limit $n14 $n6 20
-$ns queue-limit $n15 $n6 20
-$ns queue-limit $n16 $n7 20
-$ns queue-limit $n17 $n7 20
+$ns queue-limit $n5 $n10 20
+$ns queue-limit $n5 $n11 20
+$ns queue-limit $n5 $n12 20
+$ns queue-limit $n5 $n13 20
+$ns queue-limit $n6 $n14 20
+$ns queue-limit $n6 $n15 20
+$ns queue-limit $n7 $n16 20
+$ns queue-limit $n7 $n17 20
 
 #Create a UDP agent and attach it to node n0
 set tcp8to10 [new Agent/TCP]
@@ -77,11 +78,11 @@ set udp9to12 [new Agent/UDP]
 $ns attach-agent $n9 $udp9to12
 set udp9to13 [new Agent/UDP]
 $ns attach-agent $n9 $udp9to13
-set tcp8to14 [new Agent/TCP]
+set tcp8to14 [new Agent/TCP/Reno]
 $ns attach-agent $n8 $tcp8to14
 set udp9to15 [new Agent/UDP]
 $ns attach-agent $n9 $udp9to15
-set tcp8to16 [new Agent/TCP]
+set tcp8to16 [new Agent/TCP/Reno]
 $ns attach-agent $n8 $tcp8to16
 set udp9to17 [new Agent/UDP]
 $ns attach-agent $n9 $udp9to17
@@ -97,13 +98,13 @@ $tcp8to16 set fid_ 6
 $udp9to17 set fid_ 7
 
 # Create a CBR traffic source and attach it to tcp8
-set cbr8To10 [new Application/Traffic/CBR]
+set cbr8To10 [new Application/FTP]
 $cbr8To10 set packetSize_ 1000
 $cbr8To10 set interval_ 0.005
 $cbr8To10 set random_ 1
 $cbr8To10 attach-agent $tcp8to10
 
-set cbr8To11 [new Application/Traffic/CBR]
+set cbr8To11 [new Application/FTP]
 $cbr8To11 set packetSize_ 3000
 $cbr8To11 set interval_ 0.005
 $cbr8To11 set random_ 1
@@ -121,7 +122,7 @@ $cbr9To13 set interval_ 0.005
 $cbr9To13 set random_ 1
 $cbr9To13 attach-agent $udp9to13
 
-set cbr8To14 [new Application/Traffic/CBR]
+set cbr8To14 [new Application/FTP]
 $cbr8To14 set packetSize_ 2000
 $cbr8To14 set interval_ 0.005
 $cbr8To14 set random_ 1
@@ -133,7 +134,7 @@ $cbr9To15 set interval_ 0.005
 $cbr9To15 set random_ 1
 $cbr9To15 attach-agent $udp9to15
 
-set cbr8To16 [new Application/Traffic/CBR]
+set cbr8To16 [new Application/FTP]
 $cbr8To16 set packetSize_ 2000
 $cbr8To16 set interval_ 0.005
 $cbr8To16 set random_ 1
@@ -146,21 +147,21 @@ $cbr9To17 set random_ 1
 $cbr9To17 attach-agent $udp9to17
 
 #Create a Null agent (a traffic sink) and attach it to node
-set null10 [new Agent/LossMonitor]
+set null10 [new Agent/TCPSink]
 $ns attach-agent $n10 $null10
-set null11 [new Agent/LossMonitor]
+set null11 [new Agent/TCPSink]
 $ns attach-agent $n11 $null11
 set null12 [new Agent/LossMonitor]
 $ns attach-agent $n12 $null12
 set null13 [new Agent/LossMonitor]
 $ns attach-agent $n13 $null13
-set null14 [new Agent/LossMonitor]
+set null14 [new Agent/TCPSink]
 $ns attach-agent $n14 $null14
 set null15 [new Agent/LossMonitor]
 $ns attach-agent $n15 $null15
-set null16 [new Agent/LossMonitor]
+set null16 [new Agent/TCPSink]
 $ns attach-agent $n16 $null16
-set null17 [new Agent/Null]
+set null17 [new Agent/LossMonitor]
 $ns attach-agent $n17 $null17
 
 #Connect the traffic source with the traffic sink
