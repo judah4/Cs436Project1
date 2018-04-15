@@ -5,7 +5,7 @@ set ns [new Simulator]
 $ns rtproto DV
 
 #Create a trace file
-set tracefd [open example1.tr w]
+set tracefd [open project1.tr w]
 $ns trace-all $tracefd
 
 
@@ -90,8 +90,8 @@ $ns attach-agent $n9 $udp9to17
 $tcp8to10 set fid_ 0
 $tcp8to11 set fid_ 1
 $udp9to12 set fid_ 2
-$tcp8to11 set fid_ 3
-$udp9to13 set fid_ 4
+$udp9to13 set fid_ 3
+$tcp8to14 set fid_ 4
 $udp9to15 set fid_ 5
 $tcp8to16 set fid_ 6
 $udp9to17 set fid_ 7
@@ -146,22 +146,23 @@ $cbr9To17 set random_ 1
 $cbr9To17 attach-agent $udp9to17
 
 #Create a Null agent (a traffic sink) and attach it to node
-set null10 [new Agent/Null]
+set null10 [new Agent/LossMonitor]
 $ns attach-agent $n10 $null10
-set null11 [new Agent/Null]
+set null11 [new Agent/LossMonitor]
 $ns attach-agent $n11 $null11
-set null12 [new Agent/Null]
+set null12 [new Agent/LossMonitor]
 $ns attach-agent $n12 $null12
-set null13 [new Agent/Null]
+set null13 [new Agent/LossMonitor]
 $ns attach-agent $n13 $null13
-set null14 [new Agent/Null]
+set null14 [new Agent/LossMonitor]
 $ns attach-agent $n14 $null14
-set null15 [new Agent/Null]
+set null15 [new Agent/LossMonitor]
 $ns attach-agent $n15 $null15
-set null16 [new Agent/Null]
+set null16 [new Agent/LossMonitor]
 $ns attach-agent $n16 $null16
 set null17 [new Agent/Null]
 $ns attach-agent $n17 $null17
+
 #Connect the traffic source with the traffic sink
 $ns connect $tcp8to10 $null10
 $ns connect $tcp8to11 $null11
@@ -169,8 +170,8 @@ $ns connect $udp9to12 $null12
 $ns connect $udp9to13 $null13
 $ns connect $tcp8to14 $null14
 $ns connect $udp9to15 $null15
-$ns connect $tcp8to14 $null16
-$ns connect $udp9to15 $null17
+$ns connect $tcp8to16 $null16
+$ns connect $udp9to17 $null17
 
 #Schedule events for the CBR agent
 $ns at 1 "$cbr8To10 start"
